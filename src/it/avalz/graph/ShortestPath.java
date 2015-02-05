@@ -38,9 +38,11 @@ public class ShortestPath {
 		
 		g.computePathsFrom(v1);
 		
-		Vertex v = v3;
-		List<Vertex> sp = g.getShortestPathTo(v);
-		System.out.println(sp);
-		System.out.println("Distance: " + v.getMinDistance());
+		for (Vertex v : g.getVertexes().values()) {
+			System.out.println("Shortest path from 1 to " + v);
+			List<Vertex> sp = g.getShortestPathTo(v);
+			System.out.println(sp);
+			System.out.println("Distance: " + v.getMinDistance());
+		}
 	}
 }
