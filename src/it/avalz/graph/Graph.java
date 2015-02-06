@@ -31,6 +31,9 @@ public class Graph {
 	public void addVertex(Vertex v) {
 		this.vertexes.put(v.getId(), v);
 	}
+	public void addVertex(String id) {
+		this.vertexes.put(id, new Vertex(id));
+	}
 	public Vertex getVertex(String Id) {
 		return this.vertexes.get(Id);
 	}
