@@ -8,14 +8,8 @@
  */
 package it.avalz.opendaylight.controller;
 
-import it.avalz.graph.Edge;
-import it.avalz.graph.Graph;
 import it.avalz.graph.Vertex;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+import java.util.List;
 
 /**
  *
@@ -32,49 +26,16 @@ public class Example_EdgesAndNodesFromJSON {
 
 		net.addNodesFromJSON(nodesString);
 
+		net.addEdgesFromJSON(edgesString);
+
+		net.computePathsFrom("00:00:00:00:00:00:00:03");
+		
+		List path = net.getShortestPathTo("00:00:00:00:00:00:00:07");
+
 		for (Vertex v : net.getVertexes().values()) {
 			System.out.println(v);
 		}
-
-		JSONObject edgesJson = null;
-		try {
-			edgesJson = (JSONObject) new JSONParser().parse(edgesString);
-		} catch (ParseException ex) {
-			ex.printStackTrace();
-		}
-
-		JSONArray edges = (JSONArray) edgesJson.get("edgeProperties");
-
-		for (Object o : edges) {
-			Object edge = ((JSONObject) o).get("edge");
-			Object to = ((JSONObject) edge).get("headNodeConnector");
-			Object from = ((JSONObject) edge).get("tailNodeConnector");
-			Object toNode = ((JSONObject) to).get("node");
-			Object fromNode = ((JSONObject) from).get("node");
-
-			String toNodeId = (String)((JSONObject) toNode).get("id");
-			String fromNodeId = (String)((JSONObject) fromNode).get("id");
-			
-			System.out.println(toNodeId);
-			System.out.println(fromNodeId);
-			
-
-			Object properties = ((JSONObject) o).get("properties");
-			Object bandwidth = ((JSONObject) properties).get("bandwidth");
-			Object bandwidthValue = ((JSONObject) bandwidth).get("value");
-			
-			double weight = 1.0 / (long)bandwidthValue;
-			
-			System.out.println(weight);
-			
-			Edge e = new Edge(net.getVertex(toNodeId), weight);
-			System.out.println(e);
-			net.getVertex(fromNodeId).addEdge(e);
-		}
-		
-		net.computePathsFrom("00:00:00:00:00:00:00:03");
-		
-		System.out.println(net.getShortestPathTo("00:00:00:00:00:00:00:07"));
+		System.out.println(path);
 
 	}
 }

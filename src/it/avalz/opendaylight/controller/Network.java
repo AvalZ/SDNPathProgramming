@@ -8,6 +8,7 @@
  */
 package it.avalz.opendaylight.controller;
 
+import it.avalz.graph.Edge;
 import it.avalz.graph.Graph;
 import java.util.HashMap;
 import java.util.List;
@@ -30,10 +31,10 @@ public class Network extends Graph {
 	}
 		
 	
-	public void addNodesFromJSON(String jsonString) {
+	public void addNodesFromJSON(String nodesString) {
 		JSONObject json = null;
 		try {
-			json = (JSONObject) new JSONParser().parse(jsonString);
+			json = (JSONObject) new JSONParser().parse(nodesString);
 		} catch (ParseException ex) {
 			ex.printStackTrace();
 		}
@@ -49,6 +50,39 @@ public class Network extends Graph {
 			String nodeId = (String) node.get("id");
 			
 			this.addVertex(nodeId);
+		}
+	}
+	
+	public void addEdgesFromJSON(String edgesString) {
+		JSONObject edgesJson = null;
+		try {
+			edgesJson = (JSONObject) new JSONParser().parse(edgesString);
+		} catch (ParseException ex) {
+			ex.printStackTrace();
+		}
+
+		JSONArray edges = (JSONArray) edgesJson.get("edgeProperties");
+
+		for (Object o : edges) {
+			Object edge = ((JSONObject) o).get("edge");
+			
+			Object to = ((JSONObject) edge).get("headNodeConnector");
+			Object toNode = ((JSONObject) to).get("node");
+			String toNodeId = (String)((JSONObject) toNode).get("id");
+			
+			Object from = ((JSONObject) edge).get("tailNodeConnector");
+			Object fromNode = ((JSONObject) from).get("node");
+			String fromNodeId = (String)((JSONObject) fromNode).get("id");
+			
+
+			Object properties = ((JSONObject) o).get("properties");
+			Object bandwidth = ((JSONObject) properties).get("bandwidth");
+			Object bandwidthValue = ((JSONObject) bandwidth).get("value");
+			
+			double weight = 1.0 / (long)bandwidthValue;
+			
+			Edge e = new Edge(this.getVertex(toNodeId), weight);
+			this.getVertex(fromNodeId).addEdge(e);
 		}
 	}
 }
