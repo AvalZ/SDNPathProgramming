@@ -22,7 +22,7 @@ import java.util.Queue;
  */
 public class Graph {
 
-	private final Map<String, Vertex> vertexes;
+	private Map<String, Vertex> vertexes;
 
 	public Graph() {
 		this.vertexes = new HashMap<>();
