@@ -49,6 +49,20 @@ public class Vertex implements Comparable<Vertex> {
 		Edge e = new Edge(target, weight);
 		this.addEdge(e);
 	}
+	public void addEdge(Vertex target) {
+		this.addEdge(target, 1);
+	}
+	
+	public void addBidirectionalEdge(Vertex target, double weight ) {
+		Edge e1 = new Edge(target, weight);
+		Edge e2 = new Edge(this, weight);
+		
+		this.addEdge(e1);
+		target.addEdge(e2);
+	}
+	public void addBidirectionalEdge(Vertex target) {
+		this.addBidirectionalEdge(target, 1);
+	}
 	
 	@Override
 	public String toString() {
