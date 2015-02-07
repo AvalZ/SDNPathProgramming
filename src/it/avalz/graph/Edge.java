@@ -55,7 +55,7 @@ public class Edge {
 	@Override
 	public String toString() {
 		Vertex t = this.target;
-		String s = this.target.getPrevious() + "->" + t + " w=" + this.weight;
+		String s = "->" + t + " w=" + this.weight;
 		return s;
 	}
 }

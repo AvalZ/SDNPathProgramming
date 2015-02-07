@@ -8,8 +8,12 @@
  */
 package it.avalz.graph;
 
+import it.avalz.graph.exceptions.NoLinkException;
+import it.avalz.graph.exceptions.RoutingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -18,12 +22,12 @@ import java.util.List;
 public class Vertex implements Comparable<Vertex> {
 	private String id;
 	private Vertex previous;
-	private List<Edge> adjacences;
+	private Map<Integer, Edge> adjacences;
 	private double minDistance;
 	
 	public Vertex(String id) {
 		this.id = id;
-		this.adjacences = new ArrayList<>();
+		this.adjacences = new HashMap<>();
 		this.previous = null;
 		this.minDistance = Double.POSITIVE_INFINITY;
 	}
@@ -35,15 +39,32 @@ public class Vertex implements Comparable<Vertex> {
 		return previous;
 	}
 	public List<Edge> getAdjacences() {
-		return adjacences;
+		return new ArrayList<>(adjacences.values());
 	}
+	public List<Integer> getPorts() {
+		return new ArrayList<>(adjacences.keySet());
+	}
+	public int getPortTo(Vertex v) throws NoLinkException {
+		for (Integer i : adjacences.keySet()) {
+			if ( adjacences.get(i).getTarget().getId().equals(v.getId()) ) {
+				return i;
+			}
+		}
+		throw new NoLinkException("Node " + v + " is not connected to node " + this);
+	}
+	public int getPortTo(String id) throws NoLinkException {
+		return getPortTo(new Vertex(id));
+	}
+	
 	public double getMinDistance() {
 		return minDistance;
 	}
 	
-	
+	public void addEdge(Edge e, int port){
+		this.adjacences.put(port, e);
+	}
 	public void addEdge(Edge e){
-		this.getAdjacences().add(e);
+		this.addEdge(e, adjacences.size());
 	}
 	public void addEdge(Vertex target, double weight) {
 		Edge e = new Edge(target, weight);
@@ -92,7 +113,9 @@ public class Vertex implements Comparable<Vertex> {
 	 * @param adjacences the adjacences to set
 	 */
 	public void setAdjacences(List<Edge> adjacences) {
-		this.adjacences = adjacences;
+		for (Edge e : adjacences) {
+			this.adjacences.put(this.adjacences.size(), e);
+		}
 	}
 
 	/**

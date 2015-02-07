@@ -9,6 +9,7 @@
 package it.avalz.opendaylight.controller;
 
 import it.avalz.graph.Vertex;
+import it.avalz.graph.exceptions.NoLinkException;
 import java.util.List;
 
 /**
@@ -28,13 +29,31 @@ public class Example_EdgesAndNodesFromJSON {
 
 		net.addEdgesFromJSON(edgesString);
 
-		net.computePathsFrom("00:00:00:00:00:00:00:03");
-		
-		List path = net.getShortestPathTo("00:00:00:00:00:00:00:07");
+		try {
+			int port = net.getVertex("00:00:00:00:00:00:00:01").getPortTo("00:00:00:00:00:00:00:06");
+			System.out.println(port);
+		} catch (NoLinkException ex) {
+			ex.printStackTrace();
+		}
+		net.computePathsFrom("00:00:00:00:00:00:00:01");
+
+		StringBuilder sb = new StringBuilder();
 
 		for (Vertex v : net.getVertexes().values()) {
-			System.out.println(v);
+
+			sb.append("Node ");
+			sb.append(v);
+			sb.append("\n");
+			sb.append("has ports: ");
+			sb.append(v.getPorts());
+			sb.append(" to nodes: ");
+			sb.append(v.getAdjacences());
+			sb.append("\n");
 		}
+		System.out.print(sb.toString());
+
+		List<Vertex> path = net.getShortestPathTo("00:00:00:00:00:00:00:06");
+
 		System.out.println(path);
 
 	}

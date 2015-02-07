@@ -6,18 +6,18 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  */
-package it.avalz.opendaylight.controller;
+package it.avalz.graph.exceptions;
 
-import it.avalz.graph.Vertex;
 
-/**
- *
- * @author Andrea Valenza <avalenza89@gmail.com>
- */
-public class NetNode extends Vertex {
+public class NoLinkException extends RoutingException {
+	private static final long serialVersionUID = 1L;
 
-	public NetNode(String id) {
-		super(id);
+	public NoLinkException(String message) {
+		super(message);
+	}
+
+	public NoLinkException() {
+		super("No link to this node.");
 	}
 	
 }

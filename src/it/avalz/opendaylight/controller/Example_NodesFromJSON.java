@@ -27,8 +27,8 @@ public class Example_NodesFromJSON {
 		
 		net.addNodesFromJSON(jsonString);
 		
-		for (Vertex v : net.getVertexes().values()) {
-			System.out.println(v);
+		for (Vertex n : net.getVertexes().values()) {
+			System.out.println(n);
 		}
 	}
 }

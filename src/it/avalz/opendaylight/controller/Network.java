@@ -10,9 +10,6 @@ package it.avalz.opendaylight.controller;
 
 import it.avalz.graph.Edge;
 import it.avalz.graph.Graph;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -23,8 +20,6 @@ import org.json.simple.parser.ParseException;
  * @author Andrea Valenza <avalenza89@gmail.com>
  */
 public class Network extends Graph {
-	
-	private Map<String, NetNode> vertexes;
 	
 	public Network() {
 		super();
@@ -72,6 +67,7 @@ public class Network extends Graph {
 			
 			Object from = ((JSONObject) edge).get("tailNodeConnector");
 			Object fromNode = ((JSONObject) from).get("node");
+			Object fromPort = ((JSONObject) from).get("id");
 			String fromNodeId = (String)((JSONObject) fromNode).get("id");
 			
 
@@ -82,7 +78,8 @@ public class Network extends Graph {
 			double weight = 1.0 / (long)bandwidthValue;
 			
 			Edge e = new Edge(this.getVertex(toNodeId), weight);
-			this.getVertex(fromNodeId).addEdge(e);
+			int port = Integer.parseInt((String) fromPort);
+			this.getVertex(fromNodeId).addEdge(e, port);
 		}
 	}
 }
