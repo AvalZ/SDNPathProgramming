@@ -31,18 +31,30 @@ public class Graph {
 	public void addVertex(Vertex v) {
 		this.vertexes.put(v.getId(), v);
 	}
+
 	public void addVertex(String id) {
 		this.vertexes.put(id, new Vertex(id));
 	}
+
 	public Vertex getVertex(String Id) {
 		return this.vertexes.get(Id);
 	}
-	public Map<String, Vertex> getVertexes () {
+
+	public Map<String, Vertex> getVertexes() {
 		return this.vertexes;
 	}
 
-	// TODO: Implement caching
+	/**
+	 * Computes all the paths to the root.
+	 * TODO: implement caching for every node.
+	 * @param root The nodes from which it computes all the minimum paths
+	 */
 	public void computePathsFrom(Vertex root) {
+		// Setup
+		for (Vertex v : vertexes.values()) {
+			v.setMinDistance(Double.POSITIVE_INFINITY);
+			v.setPrevious(null);
+		}
 		root.setMinDistance(0);
 		Queue<Vertex> border = new PriorityQueue<>();
 		border.add(root);
@@ -51,13 +63,14 @@ public class Graph {
 		while (!border.isEmpty()) {
 			Vertex u = border.poll();
 
-			// Visit each edge exiting borderNode
+			// Visit each candidate edge exiting borderNode
 			for (Edge e : u.getAdjacences()) {
 				Vertex v = e.getTarget();
 				double candidateWeight = e.getWeight();
 				double distanceThroughCandidate = u.getMinDistance() + candidateWeight;
 
 				if (distanceThroughCandidate < v.getMinDistance()) {
+					// Update node's properties (minDistance and previous vertex)
 					border.remove(v);
 					v.setMinDistance(distanceThroughCandidate);
 					v.setPrevious(u);
@@ -66,11 +79,8 @@ public class Graph {
 			}
 		}
 	}
+
 	public void computePathsFrom(String rootId) {
-		for ( Vertex v : vertexes.values() ) {
-			v.setMinDistance(Double.POSITIVE_INFINITY);
-			v.setPrevious(null);
-		}
 		Vertex root = this.vertexes.get(rootId);
 		computePathsFrom(root);
 	}
@@ -83,8 +93,37 @@ public class Graph {
 		Collections.reverse(shortestPath);
 		return shortestPath;
 	}
+
 	public List<Vertex> getShortestPathTo(String targetId) {
 		Vertex target = this.vertexes.get(targetId);
 		return getShortestPathTo(target);
+	}
+	
+	/**
+	 * The shortest path between two vertexes in the graph.
+	 * @param from Starting point of the path
+	 * @param to Ending point of the graph
+	 * @return List of vertexes in the path (in order)
+	 * 
+	 * @see computePathsFrom(Vertex root)
+	 * @see getShortestPathTo(Vertex target)
+	 */
+	public List<Vertex> getShortestPath(Vertex from, Vertex to) {
+		computePathsFrom(from);
+		return getShortestPathTo(to);
+	}
+	/**
+	 * The shortest path between two vertexes in the graph.
+	 * It automatically gets the vertexes from the graph (if they exist)
+	 * @param fromId Starting vertex ID
+	 * @param toId Ending vertex ID
+	 * @return List of vertexes in the path (in order)
+	 * @see getShortestPath(Vertex from, Vertex to)
+	 */
+	public List<Vertex> getShortestPath(String fromId, String toId) {
+		Vertex from = this.vertexes.get(fromId);
+		Vertex to = this.vertexes.get(toId);
+		
+		return getShortestPath(from, to);
 	}
 }

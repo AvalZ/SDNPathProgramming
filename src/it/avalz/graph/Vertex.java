@@ -9,14 +9,13 @@
 package it.avalz.graph;
 
 import it.avalz.graph.exceptions.NoLinkException;
-import it.avalz.graph.exceptions.RoutingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- *
+ * 
  * @author Andrea Valenza <avalenza89@gmail.com>
  */
 public class Vertex implements Comparable<Vertex> {
@@ -41,9 +40,21 @@ public class Vertex implements Comparable<Vertex> {
 	public List<Edge> getAdjacences() {
 		return new ArrayList<>(adjacences.values());
 	}
+
+	/**
+	 * Get the node's ports to adjacent nodes.
+	 * @return The node's ports
+	 */
 	public List<Integer> getPorts() {
 		return new ArrayList<>(adjacences.keySet());
 	}
+
+	/**
+	 * Gets the port leading to a target adjacent vertex.
+	 * @param v Target vertex.
+	 * @return The port to a target adjacent vertex.
+	 * @throws NoLinkException When vertex doesn't exist or is not adjacent.
+	 */
 	public int getPortTo(Vertex v) throws NoLinkException {
 		for (Integer i : adjacences.keySet()) {
 			if ( adjacences.get(i).getTarget().getId().equals(v.getId()) ) {
@@ -52,28 +63,75 @@ public class Vertex implements Comparable<Vertex> {
 		}
 		throw new NoLinkException("Node " + v + " is not connected to node " + this);
 	}
+
+	/**
+	 * A wrapper for the getPortTo(Vertex v) method.
+	 * @param id Target vertex ID.
+	 * @return The port to a target adjacent vertex
+	 * @throws NoLinkException When vertex doesn't exist or is not adjacent.
+	 * @see getPortTo(Vertex v)
+	 */
 	public int getPortTo(String id) throws NoLinkException {
 		return getPortTo(new Vertex(id));
 	}
 	
+	/**
+	 *  
+	 * @return The minimum distance to this node from the root node.
+	 */
 	public double getMinDistance() {
 		return minDistance;
 	}
 	
+	/**
+	 * Add an Edge object, exiting from a port in the vertex.
+	 * @param e The Edge object
+	 * @param port The port from which it exits
+	 */
 	public void addEdge(Edge e, int port){
 		this.adjacences.put(port, e);
 	}
+
+	/**
+	 * Add an Edge object, exiting from the next available port on the vertex.
+	 * @param e
+	 * @see addEdge(Edge e, int port)
+	 */
 	public void addEdge(Edge e){
 		this.addEdge(e, adjacences.size());
 	}
-	public void addEdge(Vertex target, double weight) {
+
+	/**
+	 * Creates an Edge object using target and weight, then adds it to the vertex on selected port.
+	 * @param target The target vertex
+	 * @param weight The edge's weight
+	 * @param port The selected port on the vertex from which the edge exits
+	 * @see addEdge(Edge e, int port)
+	 */
+	public void addEdge(Vertex target, double weight, int port) {
 		Edge e = new Edge(target, weight);
-		this.addEdge(e);
+		this.addEdge(e, port);
+	}
+	
+	/**
+	 * Creates an Edge object using target and weight, then adds it to the next available port on the vertex.
+	 * @param target
+	 * @param weight
+	 * @see addEdge(Vertex target, double weight, int port)
+	 */
+	public void addEdge(Vertex target, double weight) {
+		this.addEdge(target, weight, adjacences.size());
 	}
 	public void addEdge(Vertex target) {
 		this.addEdge(target, 1);
 	}
 	
+	/**
+	 * Creates and adds an Edge object to this vertex, then a symmetrical edge coming from the target vertex
+	 * to this vertex.
+	 * @param target The target vertex
+	 * @param weight The weight of both edges
+	 */
 	public void addBidirectionalEdge(Vertex target, double weight ) {
 		Edge e1 = new Edge(target, weight);
 		Edge e2 = new Edge(this, weight);
@@ -81,6 +139,12 @@ public class Vertex implements Comparable<Vertex> {
 		this.addEdge(e1);
 		target.addEdge(e2);
 	}
+	/**
+	 * Creates and adds an Edge object with default weight, then a symmetrical edge coming from the target
+	 * vertex to this vertex.
+	 * @param target The target vertex
+	 * @see addBidirectionalEdge(Vertex target, double weight)
+	 */
 	public void addBidirectionalEdge(Vertex target) {
 		this.addBidirectionalEdge(target, 1);
 	}

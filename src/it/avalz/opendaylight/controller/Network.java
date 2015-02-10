@@ -16,7 +16,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 /**
- *
+ * 
  * @author Andrea Valenza <avalenza89@gmail.com>
  */
 public class Network extends Graph {
@@ -25,7 +25,11 @@ public class Network extends Graph {
 		super();
 	}
 		
-	
+	/**
+	 * Parses the output string from the /controller/nb/v2/switchmanager/default/nodes API
+	 * from the OpenDaylight controller and adds the resulting nodes to this Network object.
+	 * @param nodesString The JSON string result from the Controller API
+	 */
 	public void addNodesFromJSON(String nodesString) {
 		JSONObject json = null;
 		try {
@@ -40,6 +44,8 @@ public class Network extends Graph {
 			JSONObject sw = (JSONObject) nodes.get(i);
 			
 			JSONObject node = (JSONObject) sw.get("node");
+			
+			// TODO: Extract the Switch ports from the 'properties' object. 
 			JSONObject properties = (JSONObject) sw.get("properties");
 			
 			String nodeId = (String) node.get("id");
@@ -48,6 +54,13 @@ public class Network extends Graph {
 		}
 	}
 	
+	/**
+	 * Parses the output string from the /controller/nb/v2/topology/default API from the
+	 * OpenDaylight controller and adds the resulting edges to this Network nodes.
+	 * NOTE: run this after adding the vertexes, or it may result in crashes.
+	 * @param edgesString 
+	 * @see addNodesFromJSON(String nodesString)
+	 */
 	public void addEdgesFromJSON(String edgesString) {
 		JSONObject edgesJson = null;
 		try {
