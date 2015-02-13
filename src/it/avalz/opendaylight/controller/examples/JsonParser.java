@@ -6,7 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  */
-package it.avalz.opendaylight.controller;
+package it.avalz.opendaylight.controller.examples;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -17,7 +17,7 @@ import org.json.simple.parser.ParseException;
  *
  * @author Andrea Valenza <avalenza89@gmail.com>
  */
-public class Example_JSONparser {
+public class JsonParser {
 
 	public static void main(String[] args) {
 

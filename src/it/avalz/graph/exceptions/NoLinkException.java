@@ -8,16 +8,16 @@
  */
 package it.avalz.graph.exceptions;
 
-
 public class NoLinkException extends RoutingException {
-	private static final long serialVersionUID = 1L;
 
-	public NoLinkException(String message) {
-		super(message);
-	}
+    private static final long serialVersionUID = 1L;
 
-	public NoLinkException() {
-		super("No link to this node.");
-	}
-	
+    public NoLinkException(String message) {
+        super(message);
+    }
+
+    public NoLinkException() {
+        super("No link to this node.");
+    }
+
 }

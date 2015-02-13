@@ -6,7 +6,10 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  */
-package it.avalz.graph;
+package it.avalz.graph.examples;
+
+import it.avalz.graph.Graph;
+import it.avalz.graph.Vertex;
 
 /**
  *

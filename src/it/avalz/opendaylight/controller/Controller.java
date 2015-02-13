@@ -8,9 +8,6 @@
  */
 package it.avalz.opendaylight.controller;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 /**

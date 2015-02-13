@@ -6,13 +6,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  */
-package it.avalz.opendaylight.controller;
+package it.avalz.opendaylight.controller.examples;
 
 /**
  *
  * @author Andrea Valenza <avalenza89@gmail.com>
  */
-public class Example_GraphFromJSON {
+public class GraphFromJson {
 	public static void main(String[] args) {
 		// TODO: Get Edges
 	}
