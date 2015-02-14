@@ -8,6 +8,8 @@
  */
 package it.avalz.opendaylight.controller.examples;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -36,6 +38,13 @@ public class JsonParser {
 		System.out.println(array.get(0));
 		System.out.println(json.get("width"));
 		System.out.println(json.get("height"));
+    
+        List<String> l = new ArrayList<String>();
+        
+        l.add("\"DROP\"");
+        l.add("\"OUTPUT=2\"");
+        System.out.println(l);
 	}
+
 
 }

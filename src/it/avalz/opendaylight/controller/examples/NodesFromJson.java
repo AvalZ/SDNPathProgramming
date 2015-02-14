@@ -8,13 +8,8 @@
  */
 package it.avalz.opendaylight.controller.examples;
 
-import it.avalz.graph.Graph;
 import it.avalz.graph.Vertex;
 import it.avalz.opendaylight.controller.Network;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 /**
  *
