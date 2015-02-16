@@ -21,30 +21,30 @@ import org.json.simple.parser.ParseException;
  */
 public class JsonParser {
 
-	public static void main(String[] args) {
+  public static void main(String[] args) {
 
-		String s = "{\"ids\":[\"00:00:00:00:00:00:00:01\", \"00:00:00:00:00:00:00:02\"], \"width\":200, \"height\":100}";
+    String s = "{\"ids\":[\"00:00:00:00:00:00:00:01\", \"00:00:00:00:00:00:00:02\"], \"width\":200, \"height\":100}";
 
-		JSONObject json = null;
-		try {
-			json = (JSONObject) new JSONParser().parse(s);
-		} catch (ParseException ex) {
-			ex.printStackTrace();
-		}
-		
-		System.out.println(json.get("ids"));
-		
-		JSONArray array = (JSONArray) json.get("ids");
-		System.out.println(array.get(0));
-		System.out.println(json.get("width"));
-		System.out.println(json.get("height"));
-    
-        List<String> l = new ArrayList<String>();
-        
-        l.add("\"DROP\"");
-        l.add("\"OUTPUT=2\"");
-        System.out.println(l);
-	}
+    JSONObject json = null;
+    try {
+      json = (JSONObject)new JSONParser().parse(s);
+    }
+    catch (ParseException ex) {
+      ex.printStackTrace();
+    }
 
+    System.out.println(json.get("ids"));
+
+    JSONArray array = (JSONArray)json.get("ids");
+    System.out.println(array.get(0));
+    System.out.println(json.get("width"));
+    System.out.println(json.get("height"));
+
+    List<String> l = new ArrayList<String>();
+
+    l.add("\"DROP\"");
+    l.add("\"OUTPUT=2\"");
+    System.out.println(l);
+  }
 
 }

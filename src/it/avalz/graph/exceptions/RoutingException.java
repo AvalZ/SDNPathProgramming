@@ -13,13 +13,15 @@ package it.avalz.graph.exceptions;
  * @author Andrea Valenza <avalenza89@gmail.com>
  */
 public class RoutingException extends Exception {
-	private static final long serialVersionUID = 1L;
-	
-	public RoutingException(String message) {
-		super(message);
-	}
-	public RoutingException() {
-		super("Routing error.");
-	}
-	
+
+  private static final long serialVersionUID = 1L;
+
+  public RoutingException(String message) {
+    super(message);
+  }
+
+  public RoutingException() {
+    super("Routing error.");
+  }
+
 }

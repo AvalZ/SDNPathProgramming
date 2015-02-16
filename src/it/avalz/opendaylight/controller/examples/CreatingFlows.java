@@ -16,12 +16,13 @@ import it.avalz.opendaylight.controller.Flow;
  * @author Andrea Valenza <avalenza89@gmail.com>
  */
 public class CreatingFlows {
-    public static void main(String[] args) {
-        Vertex v = new Vertex("00:00:00:00:00:00:00:01");
-        Flow f = new Flow(v);
-        f.addAction("DROP");
-        f.addOutputAction(2);
-        
-        System.out.println(f);
-    }
+
+  public static void main(String[] args) {
+    Vertex v = new Vertex("00:00:00:00:00:00:00:01");
+    Flow f = new Flow(v);
+    f.addAction("DROP");
+    f.addOutputAction(2);
+
+    System.out.println(f);
+  }
 }

@@ -13,7 +13,8 @@ package it.avalz.opendaylight.controller.examples;
  * @author Andrea Valenza <avalenza89@gmail.com>
  */
 public class GraphFromJson {
-	public static void main(String[] args) {
-		// TODO: Get Edges
-	}
+
+  public static void main(String[] args) {
+    // TODO: Get Edges
+  }
 }

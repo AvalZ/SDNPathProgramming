@@ -9,53 +9,55 @@
 package it.avalz.graph;
 
 /**
- * 
+ *
  * @author Andrea Valenza <avalenza89@gmail.com>
  */
 public class Edge {
-	private Vertex target;
-	private double weight;
 
-	public Edge(Vertex target, double weight) {
-		this.target = target;
-		this.weight = weight;
-	}
-	public Edge(Vertex target) {
-		this(target, 1);
-	}
+  private Vertex target;
+  private double weight;
 
-	/**
-	 * @return the target
-	 */
-	public Vertex getTarget() {
-		return target;
-	}
+  public Edge(Vertex target, double weight) {
+    this.target = target;
+    this.weight = weight;
+  }
 
-	/**
-	 * @param target the target to set
-	 */
-	public void setTarget(Vertex target) {
-		this.target = target;
-	}
+  public Edge(Vertex target) {
+    this(target, 1);
+  }
 
-	/**
-	 * @return the weight
-	 */
-	public double getWeight() {
-		return weight;
-	}
+  /**
+   * @return the target
+   */
+  public Vertex getTarget() {
+    return target;
+  }
 
-	/**
-	 * @param weight the weight to set
-	 */
-	public void setWeight(double weight) {
-		this.weight = weight;
-	}
-	
-	@Override
-	public String toString() {
-		Vertex t = this.target;
-		String s = "->" + t + " w=" + this.weight;
-		return s;
-	}
+  /**
+   * @param target the target to set
+   */
+  public void setTarget(Vertex target) {
+    this.target = target;
+  }
+
+  /**
+   * @return the weight
+   */
+  public double getWeight() {
+    return weight;
+  }
+
+  /**
+   * @param weight the weight to set
+   */
+  public void setWeight(double weight) {
+    this.weight = weight;
+  }
+
+  @Override
+  public String toString() {
+    Vertex t = this.target;
+    String s = "->" + t + " w=" + this.weight;
+    return s;
+  }
 }

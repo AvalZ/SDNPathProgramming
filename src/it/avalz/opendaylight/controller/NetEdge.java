@@ -17,21 +17,21 @@ import it.avalz.graph.Vertex;
  */
 public class NetEdge extends Edge {
 
-	private final int port;
+  private final int port;
 
-	public NetEdge(Vertex target, double weight, int port) {
-		super(target, weight);
-		this.port = port;
-	}
+  public NetEdge(Vertex target, double weight, int port) {
+    super(target, weight);
+    this.port = port;
+  }
 
-	public NetEdge(Vertex target, int port) {
-		super(target);
-		this.port = port;
-	}
-	
-	@Override
-	public String toString() {
-		return super.toString() + " port=" + this.port;
-	}
+  public NetEdge(Vertex target, int port) {
+    super(target);
+    this.port = port;
+  }
+
+  @Override
+  public String toString() {
+    return super.toString() + " port=" + this.port;
+  }
 
 }

@@ -15,42 +15,41 @@ import java.net.URL;
  * @author Andrea Valenza <avalenza89@gmail.com>
  */
 public class Controller {
-	
-	private String IP;
-	
-	public Controller(String IP) {
-		this.IP = IP;
-	}
-	
-	public String getRawTopology() {
-		String url = "http://" + this.IP + "/controller/nb/v2/topology/default";
-		
-		try {
-			URL obj = new URL(url);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		// TODO: Finish the topology extractor
-		return null;
-	}
-	
-	public static void main(String args[]) {
 
-	}
+  private String IP;
 
-	/**
-	 * @return the IP
-	 */
-	public String getIP() {
-		return IP;
-	}
+  public Controller(String IP) {
+    this.IP = IP;
+  }
 
-	/**
-	 * @param IP the IP to set
-	 */
-	public void setIP(String IP) {
-		this.IP = IP;
-	}
+  public String getRawTopology() {
+    String url = "http://" + this.IP + "/controller/nb/v2/topology/default";
+
+    try {
+      URL obj = new URL(url);
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    // TODO: Finish the topology extractor
+    return null;
+  }
+
+  public void addFlow(Flow f) {
+  }
+
+  /**
+   * @return the IP
+   */
+  public String getIP() {
+    return IP;
+  }
+
+  /**
+   * @param IP the IP to set
+   */
+  public void setIP(String IP) {
+    this.IP = IP;
+  }
 }
