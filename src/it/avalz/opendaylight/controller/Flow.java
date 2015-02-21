@@ -24,7 +24,7 @@ public class Flow {
   // "actions":["DROP"]}"
   private String name;
   private boolean installInHw;
-  private Vertex node; // Uses field id and sets type to default "OF"
+  private Vertex node; // Uses the "id" field and sets type to default "OF"
   private int ingressPort;
   private String etherType;
   private int protocol;
@@ -50,15 +50,7 @@ public class Flow {
   }
 
   public Flow(Vertex node) {
-    this.name = "flow" + ++flowNumber;
-    this.installInHw = true;
-    this.node = node;
-    this.ingressPort = 0;
-    this.etherType = "0x800";
-    this.protocol = 0;
-    this.tpDst = 0;
-    this.priority = 65535;
-    this.actions = new ArrayList<>();
+    this("flow" + ++flowNumber, true, node, 0, "0x800", 0, 0, 65535, new ArrayList<String>());
 
   }
 

@@ -19,10 +19,14 @@ public class CreatingFlows {
 
   public static void main(String[] args) {
     Vertex v = new Vertex("00:00:00:00:00:00:00:01");
-    Flow f = new Flow(v);
-    f.addAction("DROP");
-    f.addOutputAction(2);
+    Flow f1 = new Flow(v);
+    f1.addAction("DROP");
+    f1.addOutputAction(2);
 
-    System.out.println(f);
+    Flow f2 = new Flow(v);
+    f2.addOutputAction(1);
+
+    System.out.println(f1);
+    System.out.println(f2);
   }
 }
