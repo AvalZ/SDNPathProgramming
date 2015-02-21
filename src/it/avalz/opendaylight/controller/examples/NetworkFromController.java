@@ -21,7 +21,7 @@ public class NetworkFromController {
 
   public static void main(String[] args) {
 
-    Controller c = new Controller("127.0.0.1", "admin", "admin");
+    Controller c = new Controller();
 
     Network n = c.newNetwork();
 
