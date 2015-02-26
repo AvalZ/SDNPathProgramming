@@ -141,29 +141,59 @@ public class Controller {
     System.out.println(f);
   }
 
-  public void installPath(List<Vertex> sp, int outputPort) {
-    Iterator<Vertex> i = sp.listIterator(0);
+  public void installPath(List<Vertex> sp, int ingressPort, int outputPort) throws NoLinkException {
+    Iterator<Vertex> i = sp.listIterator();
 
+    // Setup
+    Vertex prev = null;
     Vertex v = i.next();
+    Vertex next = i.next();
+    Flow f = null;
+
+    int prevPort;
+    int nextPort;
+
+    // First step
+    f = new Flow(v);
+    // prevPort = v.getIncomingPortTo(prev); Not the first step.
+    prevPort = ingressPort;
+    nextPort = v.getPortTo(next);
+
+    f.setIngressPort(prevPort);
+    f.addOutputAction(nextPort);
+
+    this.addFlow(f);
+
+    // Intermediate steps
     while (i.hasNext()) {
-      Flow f = new Flow(v);
+      // Rotating values one step
+      prev = v;
+      v = next;
+      next = i.next();
 
-      int port = 0;
-      try {
-        port = v.getPortTo(v = i.next());
-      }
-      catch (NoLinkException ex) {
-        ex.printStackTrace();
-      }
+      // Creating a flow for the "v" vertex, with ingressPort and outputPort
+      f = new Flow(v);
 
-      f.addOutputAction(port);
+      prevPort = v.getIncomingPortTo(prev);
+      nextPort = v.getPortTo(next);
+
+      f.setIngressPort(prevPort);
+      f.addOutputAction(nextPort);
 
       this.addFlow(f);
     }
 
-    Flow f = new Flow(v);
-    f.addOutputAction(outputPort);
+    // Last step
+    prev = v;
+    v = next;
+    // next = null; Not needed
 
+    f = new Flow(v);
+    prevPort = v.getIncomingPortTo(prev);
+    nextPort = outputPort;
+
+    f.setIngressPort(prevPort);
+    f.addOutputAction(nextPort);
     this.addFlow(f);
   }
 

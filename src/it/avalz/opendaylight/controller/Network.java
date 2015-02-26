@@ -80,11 +80,12 @@ public class Network extends Graph {
 
       Object to = ((JSONObject)edge).get("headNodeConnector");
       Object toNode = ((JSONObject)to).get("node");
+      Object toPortRaw = ((JSONObject)to).get("id");
       String toNodeId = (String)((JSONObject)toNode).get("id");
 
       Object from = ((JSONObject)edge).get("tailNodeConnector");
       Object fromNode = ((JSONObject)from).get("node");
-      Object fromPort = ((JSONObject)from).get("id");
+      Object fromPortRaw = ((JSONObject)from).get("id");
       String fromNodeId = (String)((JSONObject)fromNode).get("id");
 
       Object properties = ((JSONObject)o).get("properties");
@@ -94,8 +95,9 @@ public class Network extends Graph {
       double weight = 1.0 / (long)bandwidthValue;
 
       Edge e = new Edge(this.getVertex(toNodeId), weight);
-      int port = Integer.parseInt((String)fromPort);
-      this.getVertex(fromNodeId).addEdge(e, port);
+      int fromPort = Integer.parseInt((String)fromPortRaw);
+      int toPort = Integer.parseInt((String)toPortRaw);
+      this.getVertex(fromNodeId).addEdge(e, fromPort, toPort);
     }
   }
 }

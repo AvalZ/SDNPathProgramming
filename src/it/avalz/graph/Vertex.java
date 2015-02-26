@@ -23,11 +23,14 @@ public class Vertex implements Comparable<Vertex> {
   private String id;
   private Vertex previous;
   private Map<Integer, Edge> adjacences;
+  private Map<Integer, Edge> incomingAdjacences;
+
   private double minDistance;
 
   public Vertex(String id) {
     this.id = id;
     this.adjacences = new HashMap<>();
+    this.incomingAdjacences = new HashMap<>();
     this.previous = null;
     this.minDistance = Double.POSITIVE_INFINITY;
   }
@@ -42,6 +45,10 @@ public class Vertex implements Comparable<Vertex> {
 
   public List<Edge> getAdjacences() {
     return new ArrayList<>(adjacences.values());
+  }
+
+  public List<Edge> getIncomingAdjacences() {
+    return new ArrayList<>(incomingAdjacences.values());
   }
 
   /**
@@ -83,6 +90,20 @@ public class Vertex implements Comparable<Vertex> {
     return getPortTo(new Vertex(id));
   }
 
+  public int getIncomingPortTo(Vertex v) throws NoLinkException {
+    for (Integer i : incomingAdjacences.keySet()) {
+      if (incomingAdjacences.get(i).getTarget().getId().equals(v.getId())) {
+        return i;
+      }
+    }
+    throw new NoLinkException("Node " + v + " has no incoming connection from"
+      + " node " + this);
+  }
+
+  public int getIncomingPortTo(String id) throws NoLinkException {
+    return getIncomingPortTo(new Vertex(id));
+  }
+
   /**
    *
    * @return The minimum distance to this node from the root node.
@@ -94,11 +115,16 @@ public class Vertex implements Comparable<Vertex> {
   /**
    * Add an Edge object, exiting from a port in the vertex.
    *
-   * @param e    The Edge object
-   * @param port The port from which it exits
+   * @param e            The Edge object
+   * @param outgoingPort The port from which it exits
+   * @param targetPort   Port on the target node
    */
-  public void addEdge(Edge e, int port) {
-    this.adjacences.put(port, e);
+  public void addEdge(Edge e, int outgoingPort, int targetPort) {
+    this.adjacences.put(outgoingPort, e);
+
+    Edge incomingEdge = new Edge(this, e.getWeight());
+    // Adds an incoming edge on the target node
+    e.getTarget().addIncomingEdge(incomingEdge, targetPort);
   }
 
   /**
@@ -109,22 +135,36 @@ public class Vertex implements Comparable<Vertex> {
    * @see addEdge(Edge e, int port)
    */
   public void addEdge(Edge e) {
-    this.addEdge(e, adjacences.size());
+    this.addEdge(e, adjacences.size(), incomingAdjacences.size());
+  }
+
+  public void addIncomingEdge(Edge e, int port) {
+    this.incomingAdjacences.put(port, e);
+  }
+
+  public void addIncomingEdge(Edge e) {
+    this.incomingAdjacences.put(incomingAdjacences.size(), e);
   }
 
   /**
    * Creates an Edge object using target and weight, then adds it to the vertex
    * on selected port.
    *
-   * @param target The target vertex
-   * @param weight The edge's weight
-   * @param port   The selected port on the vertex from which the edge exits
+   * @param target       The target vertex
+   * @param weight       The edge's weight
+   * @param outgoingPort The selected port on the vertex from which the edge
+   *                     exits
+   * @param targetPort   Selected port on target switch into which the edge
+   *                     enters
    *
    * @see addEdge(Edge e, int port)
    */
-  public void addEdge(Vertex target, double weight, int port) {
+  public void addEdge(Vertex target, double weight, int outgoingPort, int targetPort) {
     Edge e = new Edge(target, weight);
-    this.addEdge(e, port);
+    this.adjacences.put(outgoingPort, e);
+
+    Edge ie = new Edge(this, weight);
+    target.addIncomingEdge(ie, targetPort);
   }
 
   /**
@@ -137,7 +177,7 @@ public class Vertex implements Comparable<Vertex> {
    * @see addEdge(Vertex target, double weight, int port)
    */
   public void addEdge(Vertex target, double weight) {
-    this.addEdge(target, weight, adjacences.size());
+    this.addEdge(target, weight, adjacences.size(), incomingAdjacences.size());
   }
 
   public void addEdge(Vertex target) {
@@ -158,6 +198,9 @@ public class Vertex implements Comparable<Vertex> {
 
     this.addEdge(e1);
     target.addEdge(e2);
+
+    this.addIncomingEdge(e1);
+    target.addIncomingEdge(e2);
   }
 
   /**
