@@ -26,6 +26,8 @@ public class Flow {
   private boolean installInHw;
   private Vertex node; // Uses the "id" field and sets type to default "OF"
   private int ingressPort;
+  private String nwSrc;
+  private String nwDst;
   private String etherType;
   private int protocol;
   private int tpDst;
@@ -35,12 +37,14 @@ public class Flow {
   private static int flowNumber;
 
   public Flow(String name, boolean installInHw, Vertex node, int ingressPort,
-    String etherType, int protocol, int tpDst, int priority,
-    List<String> actions) {
+    String nwSrc, String nwDst, String etherType, int protocol, int tpDst,
+    int priority, List<String> actions) {
     this.name = name;
     this.installInHw = installInHw;
     this.node = node;
     this.ingressPort = ingressPort;
+    this.nwSrc = nwSrc;
+    this.nwDst = nwDst;
     this.etherType = etherType;
     this.protocol = protocol;
     this.tpDst = tpDst;
@@ -49,9 +53,12 @@ public class Flow {
 
   }
 
+  public Flow(Vertex node, String destination) {
+   this("flow" + ++flowNumber, true, node, 0, null, destination, "0x800", 0, 0, 1000, new ArrayList<String>());
+  }
+  
   public Flow(Vertex node) {
-    this("flow" + ++flowNumber, true, node, 0, "0x800", 0, 0, 65535, new ArrayList<String>());
-
+    this(node, null);
   }
 
   /**
@@ -204,6 +211,22 @@ public class Flow {
     flowNumber = aFlowNumber;
   }
 
+  public String getNwSrc() {
+    return nwSrc;
+  }
+
+  public void setNwSrc(String nwSrc) {
+    this.nwSrc = nwSrc;
+  }
+
+  public String getNwDst() {
+    return nwDst;
+  }
+
+  public void setNwDst(String nwDst) {
+    this.nwDst = nwDst;
+  }
+
   @Override
   public String toString() {
     // TODO: Finire il return della lista di azioni
@@ -228,6 +251,14 @@ public class Flow {
     }
     if (this.tpDst != 0) {
       sb.append("\"tpDst\":\"").append(tpDst).append("\"");
+      sb.append(",");
+    }
+    if (this.nwDst != null) {
+      sb.append("\"nwDst\":\"").append(nwDst).append("\"");
+      sb.append(",");
+    }
+    if (this.nwSrc != null) {
+      sb.append("\"nwSrc\":\"").append(nwSrc).append("\"");
       sb.append(",");
     }
 

@@ -141,7 +141,9 @@ public class Controller {
     System.out.println(f);
   }
 
-  public void installPath(List<Vertex> sp, int ingressPort, int outputPort) throws NoLinkException {
+  public void installPath(List<Vertex> sp, int ingressPort, int outputPort, 
+    String destination) throws NoLinkException {
+    
     Iterator<Vertex> i = sp.listIterator();
 
     // Setup
@@ -154,7 +156,7 @@ public class Controller {
     int nextPort;
 
     // First step
-    f = new Flow(v);
+    f = new Flow(v, destination);
     // prevPort = v.getIncomingPortTo(prev); Not the first step.
     prevPort = ingressPort;
     nextPort = v.getPortTo(next);
@@ -172,7 +174,7 @@ public class Controller {
       next = i.next();
 
       // Creating a flow for the "v" vertex, with ingressPort and outputPort
-      f = new Flow(v);
+      f = new Flow(v, destination);
 
       prevPort = v.getIncomingPortTo(prev);
       nextPort = v.getPortTo(next);
@@ -188,7 +190,7 @@ public class Controller {
     v = next;
     // next = null; Not needed
 
-    f = new Flow(v);
+    f = new Flow(v, destination);
     prevPort = v.getIncomingPortTo(prev);
     nextPort = outputPort;
 
@@ -197,6 +199,10 @@ public class Controller {
     this.addFlow(f);
   }
 
+  public void installPath(List<Vertex> sp, int ingressPort, int outputPort)
+    throws NoLinkException {
+    this.installPath(sp, ingressPort, outputPort, null);
+  }
   /**
    * @return the IP
    */

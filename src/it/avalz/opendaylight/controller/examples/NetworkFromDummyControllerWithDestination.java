@@ -11,6 +11,7 @@ package it.avalz.opendaylight.controller.examples;
 import it.avalz.graph.Vertex;
 import it.avalz.graph.exceptions.NoLinkException;
 import it.avalz.opendaylight.controller.Controller;
+import it.avalz.opendaylight.controller.DummyController;
 import it.avalz.opendaylight.controller.Network;
 import java.util.List;
 
@@ -18,11 +19,10 @@ import java.util.List;
  *
  * @author Andrea Valenza <avalenza89@gmail.com>
  */
-public class NetworkFromController {
-
+public class NetworkFromDummyControllerWithDestination {
   public static void main(String[] args) {
 
-    Controller c = new Controller();
+    Controller c = new DummyController();
 
     Network n = c.newNetwork();
 
@@ -31,10 +31,10 @@ public class NetworkFromController {
     System.out.println(sp);
 
     try {
-      c.installPath(sp, 1, 1);
+      c.installPath(sp, 1, 1, "10.0.0.5");
     }
     catch (NoLinkException ex) {
       ex.printStackTrace();
     }
-  }
+  }  
 }
