@@ -1,4 +1,6 @@
-#High Level Flow Programming (or Path Programming)
+#Path Programming
+## A higher level flow programming plugin for the OpenDaylight SDN Controller
+
 The project's aim is to be able to program a path on multiple switches without having to worry about the network topology.
 
 In normal flows, I can redirect the traffic coming into a switch from port X to port Y, but that's only for a single switch.
